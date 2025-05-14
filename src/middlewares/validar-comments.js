@@ -1,4 +1,5 @@
 import Publication from '../publications/publications.model.js';
+import Comment from '../comments/comments.model.js';
 
 export const publicationExisting = async (req, res, next) => {
     try {
@@ -28,7 +29,7 @@ export const confirmDeleteComment = async (req, res, next) => {
         
         const { confirmation } = req.body;
 
-        if (!confirmation !== true) {
+        if (!confirmation) {
             return res.status(400).json({
                 succes: false,
                 msg: 'Confirmation is required'
@@ -59,7 +60,7 @@ export const validateExistingComment = async (req, res, next) => {
             })
         }
         next();
-        
+
     } catch (error) {
         return res.status(500).json({
             succes: false,
