@@ -20,8 +20,15 @@ export const addPublication = async (req, res) => {
 
         const publication = new Publication({
             keeperCategory: category._id,
-            ...data
+            ...data,
+            date: new Date()
         });
+
+        await Category.findByIdAndUpdate(category._id, {
+            $addToSet: {
+                keeperPublication: publication._id
+            }
+        })
 
         await publication.save();
 
@@ -114,7 +121,23 @@ export const updatePublication = async (req, res  = response) => {
             });
         }
 
-        const publication = await Publication.findByIdAndUpdate(id, data, {new: true});
+        const category = await Category.findOne({nameCategory: data.nameCategory}); 
+
+        const publication = await Publication.findByIdAndUpdate(
+            id, 
+            {
+                ...data,
+                date: new Date(),
+                keeperCategory: category._id
+            }, 
+            {new: true}
+        );
+
+        await Category.findByIdAndUpdate(category._id, {
+            $addToSet: {
+                keeperPublication: publication._id
+            }
+        })
 
         res.status(200).json({
             succes: true,

@@ -22,6 +22,10 @@ const PublicationSchema = Schema({
         ref: 'Comments',
         required: false
     }],
+    date : {
+        type: Date,
+        default: Date.now
+    },
     state: {
         type: Boolean,
         default: true,

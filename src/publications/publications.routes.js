@@ -8,7 +8,7 @@ import { addPublication, publicationsView, deletePublication, updatePublication 
 const router = Router();
 
 router.post(
-    "/",
+    "/addPublication",
     [
         check('email', 'This is not a valid email').not().isEmpty(),
         validarCampos
@@ -16,10 +16,10 @@ router.post(
     addPublication
 );
 
-router.get("/", publicationsView);
+router.get("/viewPublications", publicationsView);
 
 router.delete(
-    "/:id",
+    "/deletePublication/:id",
     [
         check("id", "It is not a valid id").isMongoId(),
         validarCampos  
@@ -28,7 +28,7 @@ router.delete(
 );
 
 router.put(
-    "/:id",
+    "/updatePublication/:id",
     [
         check("id", "It is not a valid id").isMongoId(),
         validarCampos 
