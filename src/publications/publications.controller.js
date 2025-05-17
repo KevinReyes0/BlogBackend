@@ -56,7 +56,7 @@ export const publicationsView = async (req, res) => {
             Publication.countDocuments(query),
             Publication.find(query)
             .populate({path: 'keeperCategory', match: { state: true }, select: 'nameCategory' })
-            .populate({path: 'keeperComment', match: { state: true }, select: 'comment' })
+            .populate({path: 'keeperComment', match: { state: true }, select: 'comment nameUser date' })
             .skip(Number(desde))
             .limit(Number(limite))
         ])

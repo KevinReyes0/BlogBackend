@@ -1,29 +1,6 @@
 import Publication from '../publications/publications.model.js';
 import Comment from '../comments/comments.model.js';
 
-export const publicationExisting = async (req, res, next) => {
-    try {
-        const { namePublication } = req.body;
-
-        const publication = await Publication.findOne({ namePublication, state : true });
-
-        if(!publication){
-            return res.status(404).json({
-                succes: false,
-                msg: `The publication ${namePublication} does not exist`
-            })
-
-        }
-        next();
-    } catch (error) {
-        return res.status(500).json({
-            succes: false,
-            msg: 'Error validating publication',
-            error: error.message
-        })
-    }
-};
-
 export const confirmDeleteComment = async (req, res, next) => {
     try {
         

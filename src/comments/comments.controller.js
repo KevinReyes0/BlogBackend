@@ -70,14 +70,15 @@ export const deleteComment = async (req, res) => {
     try {
         const comment = await Comment.findById(id);
 
-        if (!comment) {
-            return res.status(404).json({
-                succes: false,
-                message: 'Comment not found'
-            });
-        }
 
-        await Comment.findByIdAndUpdate(id, {state: false});
+
+        await Comment.findByIdAndDelete(id);
+
+        // Si mantienes la colección de publicaciones con referencias:
+        await Publication.findByIdAndUpdate(
+            comment.keeperPublication,
+            { $pull: { keeperComment: id } }
+        );;
 
         res.status(200).json({
             succes: true,
@@ -99,22 +100,13 @@ export const updateComment = async (req, res  = response) => {
         const {id} = req.params;
         const {_id, ...data} = req.body;
 
-        const plublication = await Publication.findOne({namePublication: data.namePublication}); 
-
         const comment = await Comment.findByIdAndUpdate(
             id, 
             {   
-                keeperPublication: plublication._id,
                 ...data
             }, 
             {new: true}
         );
-
-        await Publication.findByIdAndUpdate(plublication._id, {
-            $push: {
-                keeperComment: comment._id
-            }
-        })
 
         res.status(200).json({
             succes: true,

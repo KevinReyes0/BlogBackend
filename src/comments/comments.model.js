@@ -5,7 +5,7 @@ const CommentsSchema = Schema({
     keeperPublication: {
         type: Schema.Types.ObjectId,
         ref: 'Publication',
-        required: true
+        required: false
     },
     nameUser: {
         type: String,
